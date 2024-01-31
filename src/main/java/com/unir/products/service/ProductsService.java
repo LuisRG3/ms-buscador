@@ -16,7 +16,7 @@ public interface ProductsService {
 	
 	Boolean removeProduct(String productId);
 	
-	Product createProduct(CreateProductRequest request);
+	Product createProduct(Product request);
 
 	Product updateProduct(String productId, String updateRequest);
 

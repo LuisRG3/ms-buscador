@@ -33,17 +33,41 @@ public class Product {
 	@Column(name = "codigo")
 	private String codigo;
 	
-	@Column(name = "description")
-	private String description;
+	@Column(name = "categoria")
+	private String categoria;
+
+	@Column(name = "descripcioncorta")
+	private String descripcioncorta;
+
+	@Column(name = "descripcionlarga")
+	private String descripcionlarga;
+
+	@Column(name = "imagen")
+	private String imagen;
+
+	@Column(name = "valorunitario")
+	private Integer valorunitario;
+
+	@Column(name = "cantidadisponible")
+	private Integer cantidadisponible;
+
+	@Column(name = "imagenbase64")
+	private String imagenbase64;
 	
-	@Column(name = "visible")
-	private Boolean visible;
+	@Column(name = "borrado")
+	private Boolean borrado;
 
 	public void update(ProductDto productDto) {
-		this.nombre = productDto.getName();
-		this.codigo = productDto.getCountry();
-		this.description = productDto.getDescription();
-		this.visible = productDto.getVisible();
+		this.descripcioncorta = productDto.getDescripcioncorta();
+		this.descripcionlarga = productDto.getDescripcionlarga();
+		this.imagen = productDto.getImagen();
+		this.valorunitario = productDto.getValorUnitario();
+		this.cantidadisponible = productDto.getCantidadisponible();
+		this.imagenbase64 = productDto.getImagenbase64();
+		this.nombre = productDto.getNombre();
+		this.codigo = productDto.getCodigo();
+		this.categoria = productDto.getCategoria();
+		this.borrado = productDto.getBorrado();
 	}
 
 }

@@ -11,8 +11,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateProductRequest {
 
-	private String name;
-	private String country;
-	private String description;
-	private Boolean visible;
+	private Long idproducto;
+	private String nombre;
+	private String codigo;
+	private String categoria;
+	private String descripcioncorta;
+	private String descripcionlarga;
+	private String imagen;
+	private Integer valorUnitario;
+	private Integer cantidadisponible;
+	private String imagenbase64;
+	private Boolean borrado;
 }

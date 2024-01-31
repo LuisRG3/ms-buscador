@@ -29,6 +29,37 @@ public class ProductsServiceImpl implements ProductsService {
 
 	@Override
 	public List<Product> getProducts(String name, String country, String description, Boolean visible) {
+		return null;
+	}
+
+	@Override
+	public Product getProduct(String productId) {
+		return null;
+	}
+
+	@Override
+	public Boolean removeProduct(String productId) {
+		return null;
+	}
+
+	@Override
+	public Product createProduct(Product request) {
+		return repository.save(request);
+	}
+
+	@Override
+	public Product updateProduct(String productId, String updateRequest) {
+		return null;
+	}
+
+	@Override
+	public Product updateProduct(String productId, ProductDto updateRequest) {
+		return null;
+	}
+
+	/*
+	@Override
+	public List<Product> getProducts(String name, String country, String description, Boolean visible) {
 
 		if (StringUtils.hasLength(name) || StringUtils.hasLength(country) || StringUtils.hasLength(description)
 				|| visible != null) {
@@ -65,13 +96,15 @@ public class ProductsServiceImpl implements ProductsService {
 				&& StringUtils.hasLength(request.getDescription().trim())
 				&& StringUtils.hasLength(request.getCountry().trim()) && request.getVisible() != null) {
 
-			Product product = Product.builder().name(request.getName()).description(request.getDescription())
+			Product product = Product.builder().nombre(request.get()).description(request.getDescription())
 					.country(request.getCountry()).visible(request.getVisible()).build();
 
 			return repository.save(product);
 		} else {
 			return null;
 		}
+
+		return null;
 	}
 
 	@Override
@@ -106,5 +139,5 @@ public class ProductsServiceImpl implements ProductsService {
 			return null;
 		}
 	}
-
+*/
 }

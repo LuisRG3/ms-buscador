@@ -33,7 +33,7 @@ public class ProductRepository {
     }
 
     public List<Product> search(String name, String country, String description, Boolean visible) {
-        SearchCriteria<Product> spec = new SearchCriteria<>();
+        /*SearchCriteria<Product> spec = new SearchCriteria<>();
         if (StringUtils.isNotBlank(name)) {
             spec.add(new SearchStatement("name", name, SearchOperation.MATCH));
         }
@@ -49,7 +49,9 @@ public class ProductRepository {
         if (visible != null) {
             spec.add(new SearchStatement("visible", visible, SearchOperation.EQUAL));
         }
-        return repository.findAll(spec);
+        return repository.findAll(spec);*/
+
+        return null;
     }
 
 }
