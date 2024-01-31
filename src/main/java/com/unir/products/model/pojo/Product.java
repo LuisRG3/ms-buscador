@@ -61,7 +61,7 @@ public class Product {
 		this.descripcioncorta = productDto.getDescripcioncorta();
 		this.descripcionlarga = productDto.getDescripcionlarga();
 		this.imagen = productDto.getImagen();
-		this.valorunitario = productDto.getValorUnitario();
+		this.valorunitario = productDto.getValorunitario();
 		this.cantidadisponible = productDto.getCantidadisponible();
 		this.imagenbase64 = productDto.getImagenbase64();
 		this.nombre = productDto.getNombre();

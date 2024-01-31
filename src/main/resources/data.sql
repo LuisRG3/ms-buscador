@@ -1,1 +1,1 @@
-INSERT INTO products (idproducto, codigo, nombre, categoria, descripcioncorta, descripcionlarga, imagen, valorunitario, cantidadisponible, borrado, imagenbase64) VALUES (1000, "005", "iphone15", "celulares", "El iPhone ", "iPhone 13", "iphone", 5000, 150, false, "xx");
+/*INSERT INTO products (idproducto, codigo, nombre, categoria, descripcioncorta, descripcionlarga, imagen, valorunitario, cantidadisponible, borrado, imagenbase64) VALUES (1000, "005", "iphone15", "celulares", "El iPhone ", "iPhone 13", "iphone", 5000, 150, false, "xx");*/

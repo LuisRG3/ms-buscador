@@ -28,18 +28,40 @@ public class ProductsServiceImpl implements ProductsService {
 	private ObjectMapper objectMapper;
 
 	@Override
-	public List<Product> getProducts(String name, String country, String description, Boolean visible) {
-		return null;
+	public List<Product> getProducts(String name, String categoria, String description, Boolean visible) {
+		//return null;
+		if (StringUtils.hasLength(name) || StringUtils.hasLength(categoria) || StringUtils.hasLength(description)
+				|| visible != null) {
+			return repository.search(name, categoria, description, visible);
+		}
+
+		List<Product> products = repository.getProducts();
+		return products.isEmpty() ? null : products;
 	}
 
 	@Override
 	public Product getProduct(String productId) {
-		return null;
+		try {
+			Long id = Long.parseLong(productId);
+			return repository.getById(id);
+		} catch (NumberFormatException e) {
+			// Manejar la excepción si el formato del ID no es un número válido
+			throw new IllegalArgumentException("El formato del ID no es válido", e);
+		}
 	}
 
 	@Override
 	public Boolean removeProduct(String productId) {
-		return null;
+
+		try {
+			Product dto=repository.getById(Long.valueOf(productId));
+			dto.setBorrado(true);
+			repository.save(dto);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -54,7 +76,14 @@ public class ProductsServiceImpl implements ProductsService {
 
 	@Override
 	public Product updateProduct(String productId, ProductDto updateRequest) {
-		return null;
+		Product product = repository.getById(Long.valueOf(productId));
+		if (product != null) {
+			product.update(updateRequest);
+			repository.save(product);
+			return product;
+		} else {
+			return null;
+		}
 	}
 
 	/*

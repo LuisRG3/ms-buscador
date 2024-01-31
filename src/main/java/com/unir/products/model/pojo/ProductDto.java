@@ -17,7 +17,7 @@ public class ProductDto {
 	private String descripcioncorta;
 	private String descripcionlarga;
 	private String imagen;
-	private Integer valorUnitario;
+	private Integer valorunitario;
 	private Integer cantidadisponible;
 	private String imagenbase64;
 	private Boolean borrado;

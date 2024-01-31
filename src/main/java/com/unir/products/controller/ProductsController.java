@@ -43,14 +43,14 @@ public class ProductsController {
             @Parameter(name = "name", description = "Nombre del producto. No tiene por que ser exacto", example = "iPhone", required = false)
             @RequestParam(required = false) String name,
             @Parameter(name = "country", description = "País del producto. Debe ser exacto", example = "ES", required = false)
-            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String categoria,
             @Parameter(name = "description", description = "Descripcion del producto. No tiene por que ser exacta", example = "Estupendo", required = false)
             @RequestParam(required = false) String description,
             @Parameter(name = "visible", description = "Estado del producto. true o false", example = "true", required = false)
             @RequestParam(required = false) Boolean visible) {
 
         log.info("headers: {}", headers);
-        List<Product> products = service.getProducts(name, country, description, visible);
+        List<Product> products = service.getProducts(name, categoria, description, visible);
 
         if (products != null) {
             return ResponseEntity.ok(products);
@@ -129,12 +129,16 @@ public class ProductsController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado el producto con el identificador indicado.")
     public ResponseEntity<Product> addProduct(@RequestBody Product request) {
+        try {
+            Product createdProduct = service.createProduct(request);
 
-        Product createdProduct = service.createProduct(request);
-
-        if (createdProduct != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
-        } else {
+            if (createdProduct != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
