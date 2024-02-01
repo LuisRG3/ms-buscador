@@ -65,8 +65,26 @@ public class ProductsServiceImpl implements ProductsService {
 	}
 
 	@Override
-	public Product createProduct(Product request) {
-		return repository.save(request);
+	public Product createProduct(CreateProductRequest request) {
+
+		if (request != null && StringUtils.hasLength(request.getCodigo().trim())
+				&& StringUtils.hasLength(request.getNombre().trim())
+				&& StringUtils.hasLength(request.getCategoria().trim()) && request.getDescripcioncorta() != null
+				&& StringUtils.hasLength(request.getDescripcionlarga().trim())  && StringUtils.hasLength(request.getImagen().trim())
+				&& request.getValorunitario()!=null  && request.getCantidadisponible()!=null
+				&& request.getIndEliminado()!=null  && StringUtils.hasLength(request.getImagenbase64().trim()) ) {
+
+			Product product = Product.builder().codigo(request.getCodigo()).nombre(request.getNombre()).categoria(request.getCategoria())
+					.descripcioncorta(request.getDescripcioncorta()).descripcionlarga(request.getDescripcionlarga())
+					.imagen(request.getImagen()).valorunitario(request.getValorunitario()).cantidadisponible(request.getCantidadisponible())
+					.indEliminado(request.getIndEliminado()).imagenbase64(request.getImagenbase64()).build();
+
+			log.info("Producto nuevo: {}", product );
+
+			return repository.save(product);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

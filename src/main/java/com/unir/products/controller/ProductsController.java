@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -134,7 +135,7 @@ public class ProductsController {
             responseCode = "404",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado el producto con el identificador indicado.")
-    public ResponseEntity<Product> addProduct(@RequestBody Product request) {
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid CreateProductRequest request) {
         try {
             Product createdProduct = service.createProduct(request);
 
