@@ -147,8 +147,8 @@ public class ProductsController {
     @PatchMapping("/products/{productId}")
     @Operation(
             operationId = "Modificar parcialmente un producto",
-            description = "RFC 7386. Operacion de escritura",
-            summary = "RFC 7386. Se modifica parcialmente un producto.",
+            description = "Operacion de escritura",
+            summary = "Se modifica parcialmente un producto.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos del producto a crear.",
                     required = true,
