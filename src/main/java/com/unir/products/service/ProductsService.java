@@ -10,7 +10,7 @@ import com.unir.products.model.request.CreateProductRequest;
 
 public interface ProductsService {
 	
-	List<Product> getProducts(String name, String categoria, String description, Boolean visible);
+	List<Product> getProducts(String nombre, String categoria, String descripcioncorta, String descripcionlarga, Double valorunitario, Integer indValorUnitario,  Boolean indEliminado);
 	
 	Product getProduct(String productId);
 	

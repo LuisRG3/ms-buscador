@@ -10,16 +10,14 @@ import lombok.*;
 @ToString
 public class ProductDto {
 
-	private Long idproducto;
-	private String nombre;
 	private String codigo;
+	private String nombre;
 	private String categoria;
 	private String descripcioncorta;
 	private String descripcionlarga;
 	private String imagen;
-	private Integer valorunitario;
+	private Double valorunitario;
 	private Integer cantidadisponible;
+	private Boolean indEliminado;
 	private String imagenbase64;
-	private Boolean borrado;
-
 }

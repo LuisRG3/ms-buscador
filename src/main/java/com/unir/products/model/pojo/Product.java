@@ -26,13 +26,13 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idproducto;
-	
-	@Column(name = "nombre", unique = true)
-	private String nombre;
-	
+
 	@Column(name = "codigo")
 	private String codigo;
-	
+
+	@Column(name = "nombre", unique = true)
+	private String nombre;
+
 	@Column(name = "categoria")
 	private String categoria;
 
@@ -46,16 +46,18 @@ public class Product {
 	private String imagen;
 
 	@Column(name = "valorunitario")
-	private Integer valorunitario;
+	private Double valorunitario;
 
 	@Column(name = "cantidadisponible")
 	private Integer cantidadisponible;
 
+	@Column(name = "indeliminado")
+	private Boolean indEliminado;
+
 	@Column(name = "imagenbase64")
 	private String imagenbase64;
 	
-	@Column(name = "borrado")
-	private Boolean borrado;
+
 
 	public void update(ProductDto productDto) {
 		this.descripcioncorta = productDto.getDescripcioncorta();
@@ -67,7 +69,7 @@ public class Product {
 		this.nombre = productDto.getNombre();
 		this.codigo = productDto.getCodigo();
 		this.categoria = productDto.getCategoria();
-		this.borrado = productDto.getBorrado();
+		this.indEliminado = productDto.getIndEliminado();
 	}
 
 }
