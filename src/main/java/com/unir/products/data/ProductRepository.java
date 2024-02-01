@@ -32,23 +32,40 @@ public class ProductRepository {
         repository.delete(product);
     }
 
-    public List<Product> search(String name, String categoria, String description, Boolean visible) {
+    public List<Product> search(String nombre, String categoria, String descripcioncorta, String descripcionlarga, Double valorunitario, Integer indValorUnitario,  Boolean indEliminado) {
         SearchCriteria<Product> spec = new SearchCriteria<>();
-        if (StringUtils.isNotBlank(name)) {
-            spec.add(new SearchStatement("nombre", name, SearchOperation.MATCH));
+        if (StringUtils.isNotBlank(nombre)) {
+            spec.add(new SearchStatement("nombre", nombre, SearchOperation.MATCH));
         }
 
         if (StringUtils.isNotBlank(categoria)) {
-            spec.add(new SearchStatement("categoria", categoria, SearchOperation.EQUAL));
+            spec.add(new SearchStatement("categoria", categoria, SearchOperation.MATCH));
         }
 
-        if (StringUtils.isNotBlank(description)) {
-            spec.add(new SearchStatement("descripcioncorta", description, SearchOperation.MATCH));
+        if (StringUtils.isNotBlank(descripcioncorta)) {
+            spec.add(new SearchStatement("descripcioncorta", descripcioncorta, SearchOperation.MATCH));
         }
 
-        if (visible != null) {
-            spec.add(new SearchStatement("borrado", visible, SearchOperation.EQUAL));
+        if (StringUtils.isNotBlank(descripcionlarga)) {
+            spec.add(new SearchStatement("descripcionlarga", descripcionlarga, SearchOperation.MATCH));
         }
+
+        if (indEliminado != null) {
+            spec.add(new SearchStatement("indEliminado", indEliminado, SearchOperation.EQUAL));
+        }
+
+        if (valorunitario != null && valorunitario>0 && indValorUnitario!=null) {
+            switch (indValorUnitario) {
+                case 1:
+                    spec.add(new SearchStatement("indEliminado", indEliminado, SearchOperation.LESS_THAN_EQUAL));
+                case 2:
+                    spec.add(new SearchStatement("indEliminado", indEliminado, SearchOperation.GREATER_THAN_EQUAL));
+                default:
+                    spec.add(new SearchStatement("indEliminado", indEliminado, SearchOperation.EQUAL));
+            }
+
+        }
+
         return repository.findAll(spec);
     }
 

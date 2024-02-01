@@ -28,11 +28,11 @@ public class ProductsServiceImpl implements ProductsService {
 	private ObjectMapper objectMapper;
 
 	@Override
-	public List<Product> getProducts(String name, String categoria, String description, Boolean visible) {
+	public List<Product> getProducts(String nombre, String categoria, String descripcioncorta, String descripcionlarga, Double valorunitario, Integer indValorUnitario,  Boolean indEliminado){
 		//return null;
-		if (StringUtils.hasLength(name) || StringUtils.hasLength(categoria) || StringUtils.hasLength(description)
-				|| visible != null) {
-			return repository.search(name, categoria, description, visible);
+		if (StringUtils.hasLength(nombre) || StringUtils.hasLength(categoria) || StringUtils.hasLength(descripcioncorta) ||
+				StringUtils.hasLength(descripcionlarga) || valorunitario!=null || indEliminado != null) {
+			return repository.search(nombre, categoria, descripcioncorta, descripcionlarga, valorunitario, indValorUnitario,  indEliminado);
 		}
 
 		List<Product> products = repository.getProducts();
@@ -55,7 +55,7 @@ public class ProductsServiceImpl implements ProductsService {
 
 		try {
 			Product dto=repository.getById(Long.valueOf(productId));
-			dto.setBorrado(true);
+			dto.setIndEliminado(true);
 			repository.save(dto);
 			return true;
 		} catch (Exception e) {
@@ -65,13 +65,46 @@ public class ProductsServiceImpl implements ProductsService {
 	}
 
 	@Override
-	public Product createProduct(Product request) {
-		return repository.save(request);
+	public Product createProduct(CreateProductRequest request) {
+
+		if (request != null && StringUtils.hasLength(request.getCodigo().trim())
+				&& StringUtils.hasLength(request.getNombre().trim())
+				&& StringUtils.hasLength(request.getCategoria().trim()) && request.getDescripcioncorta() != null
+				&& StringUtils.hasLength(request.getDescripcionlarga().trim())  && StringUtils.hasLength(request.getImagen().trim())
+				&& request.getValorunitario()!=null  && request.getCantidadisponible()!=null
+				&& request.getIndEliminado()!=null  && StringUtils.hasLength(request.getImagenbase64().trim()) ) {
+
+			Product product = Product.builder().codigo(request.getCodigo()).nombre(request.getNombre()).categoria(request.getCategoria())
+					.descripcioncorta(request.getDescripcioncorta()).descripcionlarga(request.getDescripcionlarga())
+					.imagen(request.getImagen()).valorunitario(request.getValorunitario()).cantidadisponible(request.getCantidadisponible())
+					.indEliminado(request.getIndEliminado()).imagenbase64(request.getImagenbase64()).build();
+
+			log.info("Producto nuevo: {}", product );
+
+			return repository.save(product);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Product updateProduct(String productId, String updateRequest) {
-		return null;
+		//PATCH se implementa en este caso mediante Merge Patch: https://datatracker.ietf.org/doc/html/rfc7386
+		Product product = repository.getById(Long.valueOf(productId));
+		if (product != null) {
+			try {
+				JsonMergePatch jsonMergePatch = JsonMergePatch.fromJson(objectMapper.readTree(updateRequest));
+				JsonNode target = jsonMergePatch.apply(objectMapper.readTree(objectMapper.writeValueAsString(product)));
+				Product patched = objectMapper.treeToValue(target, Product.class);
+				repository.save(patched);
+				return patched;
+			} catch (JsonProcessingException | JsonPatchException e) {
+				log.error("Error updating product {}", productId, e);
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	@Override

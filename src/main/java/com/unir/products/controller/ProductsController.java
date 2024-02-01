@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,17 +41,23 @@ public class ProductsController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class)))
     public ResponseEntity<List<Product>> getProducts(
             @RequestHeader Map<String, String> headers,
-            @Parameter(name = "name", description = "Nombre del producto. No tiene por que ser exacto", example = "iPhone", required = false)
-            @RequestParam(required = false) String name,
-            @Parameter(name = "country", description = "País del producto. Debe ser exacto", example = "ES", required = false)
+            @Parameter(name = "nombre", description = "Nombre del producto. No tiene por que ser exacto", example = "iPhone", required = false)
+            @RequestParam(required = false) String nombre,
+            @Parameter(name = "categoria", description = "País del producto. Debe ser exacto", example = "ES", required = false)
             @RequestParam(required = false) String categoria,
-            @Parameter(name = "description", description = "Descripcion del producto. No tiene por que ser exacta", example = "Estupendo", required = false)
-            @RequestParam(required = false) String description,
-            @Parameter(name = "visible", description = "Estado del producto. true o false", example = "true", required = false)
-            @RequestParam(required = false) Boolean visible) {
+            @Parameter(name = "descripcioncorta", description = "Descripcion corta del producto. No tiene por que ser exacta", example = "Estupendo", required = false)
+            @RequestParam(required = false) String descripcioncorta,
+            @Parameter(name = "descripcioncorta", description = "Descripcion completa del producto. No tiene por que ser exacta", example = "Estupendo detallado", required = false)
+            @RequestParam(required = false) String descripcionlarga,
+            @Parameter(name = "valorunitario", description = "Precio de cada producto", example = "20", required = false)
+            @RequestParam(required = false) Double valorunitario,
+            @Parameter(name = "indValorUnitario", description = "Indicador de busqueda del Precio de producto si es 1 es menor igual al precio indicado si es 2 es mayor igual al precio indicado, si no se especifica lo tomara como igual al precio indicado", example = "1", required = false)
+            @RequestParam(required = false) Integer indValorUnitario,
+            @Parameter(name = "indEliminado", description = "Estado del producto. true o false", example = "true", required = false)
+            @RequestParam(required = false) Boolean indEliminado) {
 
         log.info("headers: {}", headers);
-        List<Product> products = service.getProducts(name, categoria, description, visible);
+        List<Product> products = service.getProducts(nombre, categoria, descripcioncorta,descripcionlarga,valorunitario,indValorUnitario, indEliminado);
 
         if (products != null) {
             return ResponseEntity.ok(products);
@@ -128,7 +135,7 @@ public class ProductsController {
             responseCode = "404",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado el producto con el identificador indicado.")
-    public ResponseEntity<Product> addProduct(@RequestBody Product request) {
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid CreateProductRequest request) {
         try {
             Product createdProduct = service.createProduct(request);
 
@@ -138,7 +145,6 @@ public class ProductsController {
                 return ResponseEntity.badRequest().build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
